@@ -37,29 +37,6 @@ fun <T> flatMap(
 
 /**
  * Zip two LiveData objects together, returning a LiveData that emits a mapped values
- * Mapper will be invoked each time either source LiveData emits a value
- */
-fun <S1, S2, T> zip(
-    source1: LiveData<S1>,
-    source2: LiveData<S2>,
-    mapper: (S1?, S2?) -> T?
-): LiveData<T> {
-
-    val mediator = MediatorLiveData<T>()
-
-    mediator.addSource(source1) { value1 ->
-        mediator.value = mapper(value1, source2.value)
-    }
-
-    mediator.addSource(source2) { value2 ->
-        mediator.value = mapper(source1.value, value2)
-    }
-
-    return mediator
-}
-
-/**
- * Zip two LiveData objects together, returning a LiveData that emits a mapped values
  * Mapper will be invoked only when both source LiveData contain a nonull value
  */
 fun <S1, S2, T> zipNonNull(
@@ -72,7 +49,7 @@ fun <S1, S2, T> zipNonNull(
     val mediator = MediatorLiveData<T>()
 
     fun performMap(value1: S1?, value2: S2?) {
-        if(value1 != null && value2 != null) {
+        if (value1 != null && value2 != null) {
             mediator.value = mapper(value1, value2)
         }
     }

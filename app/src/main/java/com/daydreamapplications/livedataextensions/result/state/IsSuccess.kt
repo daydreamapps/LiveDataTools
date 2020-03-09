@@ -2,9 +2,9 @@ package com.daydreamapplications.livedataextensions.result.state
 
 import androidx.lifecycle.LiveData
 import com.daydreamapplications.livedataextensions.Bools
+import com.daydreamapplications.livedataextensions.Zip
 import com.daydreamapplications.livedataextensions.map
 import com.daydreamapplications.livedataextensions.result.Result
-import com.daydreamapplications.livedataextensions.zip
 
 object IsSuccess {
 
@@ -24,7 +24,7 @@ object IsSuccess {
         source1: LiveData<Result<S1>>,
         source2: LiveData<Result<S2>>
     ): LiveData<Boolean> {
-        return zip(
+        return Zip.zip(
             source1.isSuccess(),
             source2.isSuccess(),
             Bools::nullableOr
