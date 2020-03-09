@@ -1,8 +1,9 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.result.state
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.daydreamapplications.livedataextensions.assertValue
 import com.daydreamapplications.livedataextensions.liveDataOf
+import com.daydreamapplications.livedataextensions.result.Result
 import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test

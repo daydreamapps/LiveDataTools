@@ -1,8 +1,9 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.result.state
 
 import androidx.lifecycle.LiveData
 import com.daydreamapplications.livedataextensions.Bools
 import com.daydreamapplications.livedataextensions.map
+import com.daydreamapplications.livedataextensions.result.Result
 import com.daydreamapplications.livedataextensions.zip
 
 object IsSuccess {
@@ -36,5 +37,7 @@ object IsSuccess {
  * @see IsSuccess.isSuccess(LiveData<Result<S>>)
  */
 fun <T> LiveData<Result<T>>.isSuccess(): LiveData<Boolean>  =
-    IsSuccess.isSuccess(this)
+    IsSuccess.isSuccess(
+        this
+    )
 

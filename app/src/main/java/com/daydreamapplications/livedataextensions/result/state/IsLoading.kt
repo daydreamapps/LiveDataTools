@@ -1,8 +1,9 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.result.state
 
 import androidx.lifecycle.LiveData
 import com.daydreamapplications.livedataextensions.Bools
 import com.daydreamapplications.livedataextensions.map
+import com.daydreamapplications.livedataextensions.result.Result
 import com.daydreamapplications.livedataextensions.zip
 
 object IsLoading {
@@ -36,4 +37,6 @@ object IsLoading {
  * @see IsLoading.isLoading(LiveData<Result<S>>)
  */
 fun <T> LiveData<Result<T>>.isLoading(): LiveData<Boolean>  =
-    IsLoading.isLoading(this)
+    IsLoading.isLoading(
+        this
+    )
