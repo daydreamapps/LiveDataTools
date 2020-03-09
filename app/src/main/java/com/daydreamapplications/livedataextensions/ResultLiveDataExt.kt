@@ -4,47 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.daydreamapplications.livedataextensions.result.Result
 
-/**
- * Perform an action for each emitted value corresponding to value type
- *
- * Perform onError acton on Error values
- * Perform onSuccess acton on Loading values
- * Perform onLoading acton on Success values
- */
-fun <T> LiveData<Result<T>>.doOnNextResult(
-    onError: ((Throwable) -> Unit)? = {},
-    onSuccess: ((T) -> Unit)? = {},
-    onLoading: (() -> Unit)? = {}
-): LiveData<Result<T>> {
-    return doOnNext { result ->
-        when (result) {
-            is Result.Error -> onError?.invoke(result.exception)
-            is Result.Loading -> onLoading?.invoke()
-            is Result.Success -> onSuccess?.invoke(result.data)
-        }
-    }
-}
-
-/**
- * Perform action on each emitted Error value
- */
-fun <T> LiveData<Result<T>>.doOnError(onError: (Throwable) -> Unit): LiveData<Result<T>> {
-    return doOnNextResult(onError = onError, onSuccess = null, onLoading = null)
-}
-
-/**
- * Perform action on each emitted Loading value
- */
-fun <T> LiveData<Result<T>>.doOnLoading(onLoading: () -> Unit): LiveData<Result<T>> {
-    return doOnNextResult(onError = null, onSuccess = null, onLoading = onLoading)
-}
-
-/**
- * Perform action on each emitted Success value
- */
-fun <T> LiveData<Result<T>>.doOnSuccess(onSuccess: (T) -> Unit): LiveData<Result<T>> {
-    return doOnNextResult(onError = null, onSuccess = onSuccess, onLoading = null)
-}
 
 /**
  * Returns LiveData that emits all non-Error values emitted by the source LiveData
