@@ -2,6 +2,7 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
+import com.daydreamapplications.livedataextensions.result.Result
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
@@ -10,90 +11,6 @@ class ResultLiveDataExtKtTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @Test
-    fun `isError - value is Result Error - value is true`() {
-        val value: Result.Error = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isError()
-            .assertValue(true)
-
-    }
-
-    @Test
-    fun `isError - value is Result Loading - value is false`() {
-        val value: Result.Loading = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isError()
-            .assertValue(false)
-
-    }
-
-    @Test
-    fun `isError - value is Result Success - value is false`() {
-        val value: Result.Success<Unit> = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isError()
-            .assertValue(false)
-
-    }
-
-    @Test
-    fun `isLoading - value is Result Error - value is false`() {
-        val value: Result.Error = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isLoading()
-            .assertValue(false)
-    }
-
-    @Test
-    fun `isLoading - value is Result Loading - value is true`() {
-        val value: Result.Loading = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isLoading()
-            .assertValue(true)
-    }
-
-    @Test
-    fun `isLoading - value is Result Success - value is false`() {
-        val value: Result.Success<Unit> = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isLoading()
-            .assertValue(false)
-    }
-
-    @Test
-    fun `isSuccess - value is Result Error - value is false`() {
-        val value: Result.Error = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isSuccess()
-            .assertValue(false)
-    }
-
-    @Test
-    fun `isSuccess - value is Result Loading - value is false`() {
-        val value: Result.Loading = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isSuccess()
-            .assertValue(false)
-    }
-
-    @Test
-    fun `isSuccess - value is Result Success - value is false`() {
-        val value: Result.Success<Unit> = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .isSuccess()
-            .assertValue(true)
-    }
 
 
     @Test

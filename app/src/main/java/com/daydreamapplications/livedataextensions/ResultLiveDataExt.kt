@@ -2,27 +2,7 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-
-/**
- * Returns a Boolean for each emitted value, true if value is Error
- */
-fun <T> LiveData<Result<T>>.isError(): LiveData<Boolean> {
-    return map { it is Result.Error }
-}
-
-/**
- * Returns a Boolean for each emitted value, true if value is Loading
- */
-fun <T> LiveData<Result<T>>.isLoading(): LiveData<Boolean> {
-    return map { it is Result.Loading }
-}
-
-/**
- * Returns a Boolean for each emitted value, true if value is Success
- */
-fun <T> LiveData<Result<T>>.isSuccess(): LiveData<Boolean> {
-    return map { it is Result.Success<*> }
-}
+import com.daydreamapplications.livedataextensions.result.Result
 
 /**
  * Perform an action for each emitted value corresponding to value type
@@ -44,7 +24,6 @@ fun <T> LiveData<Result<T>>.doOnNextResult(
         }
     }
 }
-
 
 /**
  * Perform action on each emitted Error value
@@ -117,7 +96,6 @@ fun <T> LiveData<Result<T>>.ifErrorReturnResult(mapper: (Throwable) -> Result<T>
     }
 }
 
-
 /**
  * Returns LiveData that emits all non-Success values emitted by the source LiveData
  *
@@ -144,7 +122,6 @@ fun <T> LiveData<Result<T>>.filterResult(predicate: (T) -> Boolean): LiveData<Re
     }
 }
 
-
 /**
  * Return LiveData that emits all Error and Loading values, and mapped Success values of the generic type
  */
@@ -166,8 +143,12 @@ fun <S, T> LiveData<Result<S>>.switchMapResult(mapper: (S) -> LiveData<Result<T>
     return switchMap { result ->
         when (result) {
             is Result.Success -> mapper(result.data)
-            is Result.Error -> liveDataOf<Result<T>>(Result.Error(result.exception))
-            else -> liveDataOf<Result<T>>(Result.Loading)
+            is Result.Error -> liveDataOf<Result<T>>(
+                Result.Error(result.exception)
+            )
+            else -> liveDataOf<Result<T>>(
+                Result.Loading
+            )
         }
     }
 }
@@ -185,29 +166,35 @@ fun <S1, S2, T> zipResult(
 
     val mediator = MediatorLiveData<Result<T>>()
 
-    fun performMap(result1: Result<S1>?, result2: Result<S2>?) {
-
-        val result = when {
-            result1 is Result.Success && result2 is Result.Success -> {
-                val value = mapper(result1.data, result2.data)
-                Result.Success(value)
-            }
-            result1 is Result.Error -> result1
-            result2 is Result.Error -> result2
-            else -> Result.Loading
-        }
-
-        mediator.value = result
-    }
-
-
     mediator.addSource(source1) { value1 ->
-        performMap(value1, source2.value)
+        val mappedValue = performMap(value1, source2.value, mapper)
+        mediator.postValue(mappedValue)
     }
 
     mediator.addSource(source2) { value2 ->
-        performMap(source1.value, value2)
+        val mappedValue = performMap(source1.value, value2, mapper)
+        mediator.postValue(mappedValue)
     }
 
     return mediator
+}
+
+/**
+ * Utility function for zipResult
+ */
+private fun <S1, S2, T> performMap(
+    result1: Result<S1>?,
+    result2: Result<S2>?,
+    mapper: (S1, S2) -> T
+): Result<T> {
+
+    return when {
+        result1 is Result.Success && result2 is Result.Success -> {
+            val value = mapper(result1.data, result2.data)
+            Result.Success(value)
+        }
+        result1 is Result.Error -> result1
+        result2 is Result.Error -> result2
+        else -> Result.Loading // should this have the option to pass null through? (not for my use, but should be considered)
+    }
 }
