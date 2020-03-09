@@ -37,39 +37,6 @@ fun <T, R> LiveData<T>.switchMap(mapper: (T?) -> LiveData<R>): LiveData<R> {
 }
 
 /**
- * Passes all values emitted by live data that pass predicate function.
- */
-fun <T> LiveData<T>.filter(predicate: (T?) -> Boolean): LiveData<T> {
-
-    val mediator = MediatorLiveData<T>()
-
-    mediator.addSource(this) { value ->
-        if (predicate(value)) {
-            mediator.value = value
-        }
-    }
-
-    return mediator
-}
-
-/**
- * Passes all nonnull values emitted by live data that pass predicate function.
- */
-fun <T> LiveData<T>.filterNonNull(predicate: (T) -> Boolean): LiveData<T> {
-
-    val mediator = MediatorLiveData<T>()
-
-    mediator.addSource(this) { value ->
-
-        if (value != null && predicate(value)) {
-            mediator.value = value
-        }
-    }
-
-    return mediator
-}
-
-/**
  * Executes the operation on each value emitted by live data.
  */
 fun <T> LiveData<T>.doOnNext(onNext: (T?) -> Unit): LiveData<T> {
