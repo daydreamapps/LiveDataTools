@@ -9,7 +9,7 @@ object Zip {
      * Zip two LiveData objects together, returning a LiveData that emits a mapped values
      * Mapper will be invoked each time either source LiveData emits a value
      */
-    fun <S1, S2, T> zip(
+    fun <S1, S2, T> zip2(
         source1: LiveData<S1>,
         source2: LiveData<S2>,
         mapper: (S1?, S2?) -> T?
@@ -32,7 +32,7 @@ object Zip {
      * Zip two LiveData objects together, returning a LiveData that emits a mapped values
      * Mapper will be invoked each time either source LiveData emits a value
      */
-    fun <S1, S2, S3, T> zip(
+    fun <S1, S2, S3, T> zip3(
         source1: LiveData<S1>,
         source2: LiveData<S2>,
         source3: LiveData<S3>,
@@ -55,4 +55,33 @@ object Zip {
 
         return mediator
     }
+}
+
+/**
+ * Convenicne top-level function to calls Zip.zip2
+ * @see Zip.zip2
+ */
+fun <S1, S2, T> zip(
+    source1: LiveData<S1>,
+    source2: LiveData<S2>,
+    mapper: (S1?, S2?) -> T?
+): LiveData<T> {
+
+    return Zip.zip2(source1, source2, mapper)
+}
+
+
+/**
+ * Convenicne top-level function to calls Zip.zip
+ * @see Zip.zip3
+ */
+fun <S1, S2, S3, T> zip(
+    source1: LiveData<S1>,
+    source2: LiveData<S2>,
+    source3: LiveData<S3>,
+    mapper: (S1?, S2?, S3?) -> T?
+): LiveData<T> {
+
+
+    return Zip.zip3(source1, source2, source3, mapper)
 }

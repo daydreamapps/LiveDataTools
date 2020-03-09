@@ -24,7 +24,7 @@ object IsError {
         source1: LiveData<Result<S1>>,
         source2: LiveData<Result<S2>>
     ): LiveData<Boolean> {
-        return Zip.zip(
+        return Zip.zip2(
             source1.isError(),
             source2.isError(),
             Bools::nullableOr
