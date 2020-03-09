@@ -2,6 +2,8 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -9,6 +11,18 @@ class FilterTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp() {
+        mockkObject(Filter)
+    }
+
+    @After
+    fun tearDown() {
+        unmockkObject(Filter)
+    }
+
+    // Object functionality tests
 
     @Test
     fun `filter - predicate returns false for value - value is not passed`() {
@@ -75,6 +89,36 @@ class FilterTest {
 
         verifySequence {
             predicate(Unit)
+        }
+    }
+
+    // Extension Function Tests
+
+    @Test
+    fun `filter extension function - calls Filter filter`() {
+        val source = emptyLiveData<Unit>()
+        val predicate: (Unit?) -> Boolean = mockk()
+
+        every { Filter.filter(source, predicate) } returns mockk()
+
+        source.filter(predicate)
+
+        verify {
+            Filter.filter(source, predicate)
+        }
+    }
+
+    @Test
+    fun `filterNonNull extension function - calls Filter filterNonNull`() {
+        val source = emptyLiveData<Unit>()
+        val predicate: (Unit) -> Boolean = mockk()
+
+        every { Filter.filterNonNull(source, predicate) } returns mockk()
+
+        source.filterNonNull(predicate)
+
+        verify {
+            Filter.filterNonNull(source, predicate)
         }
     }
 }
