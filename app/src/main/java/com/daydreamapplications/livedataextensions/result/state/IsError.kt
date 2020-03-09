@@ -5,7 +5,6 @@ import com.daydreamapplications.livedataextensions.Bools
 import com.daydreamapplications.livedataextensions.Zip
 import com.daydreamapplications.livedataextensions.map
 import com.daydreamapplications.livedataextensions.result.Result
-import com.daydreamapplications.livedataextensions.zip
 
 object IsError {
 
