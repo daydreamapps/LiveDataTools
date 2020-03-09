@@ -13,40 +13,30 @@ class IsLoadingTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-
     @Test
     fun `isLoading - value is Result Error - value is false`() {
         val value: Result.Error = mockk()
+        val source = liveDataOf<Result<Unit>>(value)
 
-        IsLoading.isLoading(
-            liveDataOf<Result<Unit>>(
-                value
-            )
-        )
+        IsLoading.isLoading(source)
             .assertValue(false)
     }
 
     @Test
     fun `isLoading - value is Result Loading - value is true`() {
         val value: Result.Loading = mockk()
+        val source = liveDataOf<Result<Unit>>(value)
 
-        IsLoading.isLoading(
-            liveDataOf<Result<Unit>>(
-                value
-            )
-        )
+        IsLoading.isLoading(source)
             .assertValue(true)
     }
 
     @Test
     fun `isLoading - value is Result Success - value is false`() {
         val value: Result.Success<Unit> = mockk()
+        val source = liveDataOf<Result<Unit>>(value)
 
-        IsLoading.isLoading(
-            liveDataOf<Result<Unit>>(
-                value
-            )
-        )
+        IsLoading.isLoading(source)
             .assertValue(false)
     }
 }

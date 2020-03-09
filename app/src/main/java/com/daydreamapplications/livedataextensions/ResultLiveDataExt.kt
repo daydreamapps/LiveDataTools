@@ -47,14 +47,6 @@ fun <T> LiveData<Result<T>>.doOnSuccess(onSuccess: (T) -> Unit): LiveData<Result
 }
 
 /**
- * Return LiveData that emits only Success values emitted by the source LiveData
- */
-fun <T> LiveData<Result<T>>.filterSuccess(): LiveData<T> {
-    return filter { it is Result.Success }
-        .map { (it as Result.Success).data }
-}
-
-/**
  * Returns LiveData that emits all non-Error values emitted by the source LiveData
  * Error values are mapped to a Success value using the default
  */

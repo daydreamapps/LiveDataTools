@@ -12,39 +12,6 @@ class ResultLiveDataExtKtTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-
-    @Test
-    fun `filterSuccess - value is Result Error - value is false`() {
-        val value: Result.Error = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .filterSuccess()
-            .assertNoValue()
-    }
-
-    @Test
-    fun `filterSuccess - value is Result Loading - value is false`() {
-        val value: Result.Loading = mockk()
-
-        liveDataOf<Result<Unit>>(value)
-            .filterSuccess()
-            .assertNoValue()
-    }
-
-    @Test
-    fun `filterSuccess - value is Result Success - value is false`() {
-        val value: Result.Success<Unit> = mockk()
-        every { value.data } returns Unit
-
-        liveDataOf<Result<Unit>>(value)
-            .filterSuccess()
-            .assertValue(Unit)
-
-        verifySequence {
-            value.data
-        }
-    }
-
     @Test
     fun `defaultIfError - value is Result Error - value is false`() {
         val value: Result.Error = mockk()

@@ -38,7 +38,7 @@ class IsSuccessTest {
     }
 
     @Test
-    fun `isSuccess - value is Result Success - value is false`() {
+    fun `isSuccess - value is Result Success - value is true`() {
         val value: Result.Success<Unit> = mockk()
 
         IsSuccess.isSuccess(
