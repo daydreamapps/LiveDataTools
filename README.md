@@ -1,7 +1,7 @@
 # LiveDataTools
 Collection of utility &amp; extension functions for LiveData
 
-##Structure
+## Structure
 Like operations are grouped into Object classes with associated extension functions to permit them to be invoked inline.
 
 ```
@@ -20,7 +20,7 @@ val liveData = MutableLiveData<String>()
 val filteredLiveData = liveData.filter { it == "Hello World" }
 ```
 
-##Testing
+## Testing
 
 As each extension function links to an Object, the operation can be mocked using a that permits mocking of Kotlin Objects, such as [MockK](https://mockk.io/).
 
