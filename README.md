@@ -1,4 +1,5 @@
 # LiveDataTools
+![Unit Tests](https://github.com/daydreamapps/LiveDataTools/workflows/Unit%20Tests/badge.svg)
 Collection of utility &amp; extension functions for LiveData
 
 ## Structure
