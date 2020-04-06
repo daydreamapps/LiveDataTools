@@ -1,6 +1,6 @@
 # Workflow to run all unit test on Pull Requests
 
-name: JENKINS
+name: Unit Tests
 
 on:
   pull_request:
