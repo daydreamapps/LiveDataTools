@@ -1,0 +1,18 @@
+# Workflow to run all unit test
+
+name: JENKINS
+
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger Unit Tests
+      uses: appleboy/jenkins-action@master
+      with:
+        url: "http://141.0.158.139:8080"
+        user: "spatmore"
+        token: ${{ secrets.TOKEN }}
+        job: "LiveDataTools"
