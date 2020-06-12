@@ -2,19 +2,19 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 
 /**
- * Emits all values emitted by live data transformed by mapping function
- *
- * @see Transformations
+ * Returns a LiveData that applies a specified transform function to each item emitted by the source LiveData and
+ * emits the results of these function applications.
  */
-fun <T, R> LiveData<T>.map(mapper: (T?) -> R?): LiveData<R> {
-    return Transformations.map(this, mapper)
+fun <T, R> LiveData<T>.map(transform: (T?) -> R?): LiveData<R> {
+    return Transformations.map(this, transform)
 }
-
 /**
- * Emits all nonnull values emitted by live data transformed by mapping function.
+ * Returns a LiveData that applies a specified transform function to each non-null item emitted by the source
+ * LiveData and emits the results of these function applications.
  */
 fun <T, R> LiveData<T>.mapNonNull(mapper: (T) -> R?): LiveData<R> {
 
@@ -27,13 +27,6 @@ fun <T, R> LiveData<T>.mapNonNull(mapper: (T) -> R?): LiveData<R> {
     }
 
     return mediator
-}
-
-/**
- * Returns a LiveData that switches its source to a LiveData provided by the mapper function
- */
-fun <T, R> LiveData<T>.switchMap(mapper: (T?) -> LiveData<R>): LiveData<R> {
-    return Transformations.switchMap(this, mapper)
 }
 
 /**
