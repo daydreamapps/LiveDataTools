@@ -86,7 +86,7 @@ class MapTest {
         verify { transform(Unit) }
     }
 
-    // Public Function Tests
+    // Extension Function Tests
 
     @Test
     fun `map - delegates to Map - returns LiveData`() {
