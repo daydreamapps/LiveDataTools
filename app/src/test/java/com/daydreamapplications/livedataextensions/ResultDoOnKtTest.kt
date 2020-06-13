@@ -9,7 +9,7 @@ import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
 
-class ResultDoOnNextKtTest {
+class ResultDoOnKtTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
