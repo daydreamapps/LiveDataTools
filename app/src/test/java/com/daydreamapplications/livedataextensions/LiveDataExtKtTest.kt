@@ -13,36 +13,6 @@ class LiveDataExtKtTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun `map - value is null - returns mapped value`() {
-        val mapper: (Unit?) -> String? = mockk()
-        every { mapper(null) } returns "mapped value"
-
-        liveDataOf<Unit>(
-            null
-        )
-            .map(mapper)
-            .assertValue("mapped value")
-
-        verifySequence {
-            mapper(null)
-        }
-    }
-
-    @Test
-    fun `map - value is nonnull - returns mapped value`() {
-        val mapper: (Unit?) -> String? = mockk()
-        every { mapper(Unit) } returns "mapped value"
-
-        liveDataOf(Unit)
-            .map(mapper)
-            .assertValue("mapped value")
-
-        verifySequence {
-            mapper(Unit)
-        }
-    }
-
-    @Test
     fun `switchMap - source has value - returns LiveData observing mapper result`() {
         val mapper: (Unit?) -> LiveData<String> = mockk()
         val switchedLiveData =
