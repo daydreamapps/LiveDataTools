@@ -1,6 +1,7 @@
 package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.daydreamapplications.livedataextensions.livedata.*
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +19,9 @@ class LiveDataKtTest {
 
     @Test
     fun `mutableLiveDataOf - returns MutableLiveData - with given value`() {
-        mutableLiveDataOf(Unit)
+        mutableLiveDataOf(
+            Unit
+        )
             .assertValue(Unit)
     }
 
@@ -30,41 +33,62 @@ class LiveDataKtTest {
 
     @Test
     fun `mutableLiveDataOf - returns LiveData - with given value`() {
-        mutableLiveDataOf(Unit)
+        mutableLiveDataOf(
+            Unit
+        )
             .assertValue(Unit)
     }
 
     @Test
     fun `flatMap - single source - has value from source`() {
-        flatMap(liveDataOf(Unit))
+        flatMap(
+            liveDataOf(Unit)
+        )
             .assertValue(Unit)
     }
 
     @Test
     fun `flatMap - two source, first has value - has value from first source`() {
-        flatMap(liveDataOf(Unit), emptyLiveData())
+        flatMap(
+            liveDataOf(Unit),
+            emptyLiveData()
+        )
             .assertValue(Unit)
     }
 
     @Test
     fun `flatMap - two source, second has value - has value from second source`() {
-        flatMap(emptyLiveData(), liveDataOf(Unit))
+        flatMap(
+            emptyLiveData(),
+            liveDataOf(Unit)
+        )
             .assertValue(Unit)
     }
 
     @Test
     fun `flatMap - two source, both have value - has values from both sources`() {
-        flatMap(liveDataOf(Unit), liveDataOf(Unit))
+        flatMap(
+            liveDataOf(Unit),
+            liveDataOf(Unit)
+        )
             .assertValueHistory(Unit, Unit)
     }
 
     @Test
     fun `zipNonNull - single source has value - has no value`() {
         val mapper: (String, String) -> Unit? = mockk()
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf<String>(null)
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
 
-        zipNonNull(source1, source2, mapper)
+        zipNonNull(
+            source1,
+            source2,
+            mapper
+        )
             .assertNoValue()
 
         verify {
@@ -76,10 +100,16 @@ class LiveDataKtTest {
     fun `zipNonNull - both sources have values - returns mapped value`() {
         val mapper: (String, String) -> Unit? = mockk()
         every { mapper("1", "2") } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf("2")
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf("2")
 
-        zipNonNull(source1, source2, mapper)
+        zipNonNull(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(Unit)
 
         verifySequence {

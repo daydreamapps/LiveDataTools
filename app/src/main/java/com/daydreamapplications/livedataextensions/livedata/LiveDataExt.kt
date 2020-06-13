@@ -1,8 +1,7 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 
 /**

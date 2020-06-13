@@ -1,8 +1,8 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.filter
-import com.daydreamapplications.livedataextensions.map
+import com.daydreamapplications.livedataextensions.livedata.filter
+import com.daydreamapplications.livedataextensions.livedata.map
 
 object FilterResult {
 

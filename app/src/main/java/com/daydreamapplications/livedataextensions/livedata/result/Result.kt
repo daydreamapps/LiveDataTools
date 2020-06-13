@@ -1,7 +1,4 @@
-package com.daydreamapplications.livedataextensions.result
-
-import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.mutableLiveDataOf
+package com.daydreamapplications.livedataextensions.livedata.result
 
 /**
  * Sealed collection of classes to express the result of an operation
@@ -33,6 +30,15 @@ sealed class Result<out T> {
         }
     }
 
+    companion object {
+
+        fun <T> success(data: T): Result<T> = Success(data)
+
+        fun <T> error(exception: Throwable): Result<T> = Error(exception)
+
+        fun <T> loading(): Result<T> = Loading
+    }
+
     /**
      * If instance is a Success object returns it's data, else returns null
      *
@@ -60,25 +66,4 @@ sealed class Result<out T> {
      * @returns Boolean, true if Result.Success
      */
     val isSuccess: Boolean get() = this is Success
-}
-
-fun <T> asResult(action: () -> T): LiveData<Result<T>> {
-    val liveData =
-        mutableLiveDataOf<Result<T>>(
-            Result.Loading
-        )
-
-    try {
-        val success =
-            Result.Success(
-                action()
-            )
-        liveData.postValue(success)
-    } catch (cause: Throwable) {
-        val error =
-            Result.Error(cause)
-        liveData.postValue(error)
-    }
-
-    return liveData
 }

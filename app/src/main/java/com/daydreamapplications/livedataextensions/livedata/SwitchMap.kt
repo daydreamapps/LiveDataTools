@@ -1,7 +1,6 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 
 object SwitchMap {
@@ -34,7 +33,10 @@ object SwitchMap {
  * of these LiveData.
  */
 fun <T, R> LiveData<T>.switchMap(switchFunction: (T?) -> LiveData<R>): LiveData<R> {
-    return SwitchMap.switchMap(this, switchFunction)
+    return SwitchMap.switchMap(
+        this,
+        switchFunction
+    )
 }
 
 /**
@@ -43,5 +45,8 @@ fun <T, R> LiveData<T>.switchMap(switchFunction: (T?) -> LiveData<R>): LiveData<
  * of these LiveData.
  */
 fun <T, R> LiveData<T>.switchMapNonNull(switchFunction: (T?) -> LiveData<R>): LiveData<R> {
-    return SwitchMap.switchMapNonNull(this, switchFunction)
+    return SwitchMap.switchMapNonNull(
+        this,
+        switchFunction
+    )
 }

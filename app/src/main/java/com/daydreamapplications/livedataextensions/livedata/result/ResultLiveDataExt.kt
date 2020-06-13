@@ -1,8 +1,11 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.daydreamapplications.livedataextensions.result.Result
+import com.daydreamapplications.livedataextensions.livedata.filter
+import com.daydreamapplications.livedataextensions.livedata.liveDataOf
+import com.daydreamapplications.livedataextensions.livedata.map
+import com.daydreamapplications.livedataextensions.livedata.switchMap
 
 
 /**
@@ -118,12 +121,22 @@ fun <S1, S2, T> zipResult(
     val mediator = MediatorLiveData<Result<T>>()
 
     mediator.addSource(source1) { value1 ->
-        val mappedValue = performMap(value1, source2.value, mapper)
+        val mappedValue =
+            performMap(
+                value1,
+                source2.value,
+                mapper
+            )
         mediator.postValue(mappedValue)
     }
 
     mediator.addSource(source2) { value2 ->
-        val mappedValue = performMap(source1.value, value2, mapper)
+        val mappedValue =
+            performMap(
+                source1.value,
+                value2,
+                mapper
+            )
         mediator.postValue(mappedValue)
     }
 

@@ -1,4 +1,4 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -28,14 +28,16 @@ fun <T> mutableLiveDataOf(value: T?): MutableLiveData<T> {
  *
  * @see LiveData
  */
-fun <T> emptyLiveData(): LiveData<T> = emptyMutableLiveData()
+fun <T> emptyLiveData(): LiveData<T> =
+    emptyMutableLiveData()
 
 /**
  * Return instance of LiveData initialised with value
  *
  * @see LiveData
  */
-fun <T> liveDataOf(value: T?): LiveData<T> = mutableLiveDataOf(value)
+fun <T> liveDataOf(value: T?): LiveData<T> =
+    mutableLiveDataOf(value)
 
 /**
  * Returns a LiveData that emits the most recent value from one or more source LiveData

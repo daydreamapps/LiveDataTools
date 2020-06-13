@@ -1,9 +1,9 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.emptyLiveData
-import com.daydreamapplications.livedataextensions.liveDataOf
+import com.daydreamapplications.livedataextensions.livedata.emptyLiveData
+import com.daydreamapplications.livedataextensions.livedata.liveDataOf
 import com.daydreamapplications.livedataextensions.test
 import io.mockk.*
 import org.junit.Rule
@@ -22,7 +22,8 @@ class DoOnOperationsTest {
         val onSuccess: (Unit) -> Unit = mockk()
         val onLoading: () -> Unit = mockk()
 
-        val source = emptyLiveData<Result<Unit>>()
+        val source =
+            emptyLiveData<Result<Unit>>()
         DoOnOperations.doOnNextResult(
             source = source,
             onError = onError,
@@ -43,7 +44,10 @@ class DoOnOperationsTest {
         val onSuccess: (Unit) -> Unit = mockk()
         val onLoading: () -> Unit = mockk()
 
-        val source = liveDataOf<Result<Unit>>(null)
+        val source =
+            liveDataOf<Result<Unit>>(
+                null
+            )
         DoOnOperations.doOnNextResult(
             source = source,
             onError = onError,
@@ -69,7 +73,10 @@ class DoOnOperationsTest {
             every { exception } returns throwable
         }
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnNextResult(
             source = source,
             onError = onError,
@@ -93,7 +100,10 @@ class DoOnOperationsTest {
         every { onLoading() } just Runs
         val value: Result.Loading = mockk()
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnNextResult(
             source = source,
             onError = onError,
@@ -118,7 +128,10 @@ class DoOnOperationsTest {
             every { data } returns Unit
         }
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnNextResult(
             source = source,
             onError = onError,
@@ -143,7 +156,9 @@ class DoOnOperationsTest {
             every { exception } returns throwable
         }
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .doOnError(onError)
             .test()
 
@@ -158,7 +173,10 @@ class DoOnOperationsTest {
         val onError: (Throwable) -> Unit = mockk()
         val value: Result.Loading = mockk()
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnError(source, onError)
             .test()
 
@@ -174,7 +192,10 @@ class DoOnOperationsTest {
             every { data } returns Unit
         }
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnError(source, onError)
             .test()
 
@@ -191,7 +212,10 @@ class DoOnOperationsTest {
             every { exception } returns throwable
         }
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnLoading(source, onLoading)
             .test()
 
@@ -206,7 +230,10 @@ class DoOnOperationsTest {
         val value: Result.Loading = mockk()
         every { onLoading() } just Runs
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnLoading(source, onLoading)
             .test()
 
@@ -222,7 +249,10 @@ class DoOnOperationsTest {
             every { data } returns Unit
         }
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnLoading(source, onLoading)
             .test()
 
@@ -236,7 +266,10 @@ class DoOnOperationsTest {
         val onSuccess: (Unit) -> Unit = mockk()
         val value: Result.Error = mockk()
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnSuccess(source, onSuccess)
             .test()
 
@@ -250,7 +283,10 @@ class DoOnOperationsTest {
         val onSuccess: (Unit) -> Unit = mockk()
         val value: Result.Loading = mockk()
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnSuccess(source, onSuccess)
             .test()
 
@@ -267,7 +303,10 @@ class DoOnOperationsTest {
         }
         every { onSuccess(Unit) } just Runs
 
-        val source = liveDataOf<Result<Unit>>(value)
+        val source =
+            liveDataOf<Result<Unit>>(
+                value
+            )
         DoOnOperations.doOnSuccess(source, onSuccess)
             .test()
 

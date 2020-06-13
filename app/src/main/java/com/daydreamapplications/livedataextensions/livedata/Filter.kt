@@ -1,4 +1,4 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -45,12 +45,18 @@ object Filter {
  * Filters items emitted by a LiveData by only emitting values which satisfy a specified predicate
  */
 fun <T> LiveData<T>.filter(predicate: (T?) -> Boolean): LiveData<T> {
-    return Filter.filter(this, predicate)
+    return Filter.filter(
+        this,
+        predicate
+    )
 }
 
 /**
  * Filters items emitted by a LiveData by only emitting non-null values which satisfy a specified predicate
  */
 fun <T> LiveData<T>.filterNonNull(predicate: (T) -> Boolean): LiveData<T> {
-    return Filter.filterNonNull(this, predicate)
+    return Filter.filterNonNull(
+        this,
+        predicate
+    )
 }

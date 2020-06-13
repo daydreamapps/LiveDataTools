@@ -1,6 +1,7 @@
 package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.daydreamapplications.livedataextensions.livedata.*
 import io.mockk.*
 import org.junit.After
 import org.junit.Before
@@ -29,7 +30,8 @@ class FilterTest {
         val predicate: (Unit?) -> Boolean = mockk()
         every { predicate(Unit) } returns false
 
-        val source = liveDataOf(Unit)
+        val source =
+            liveDataOf(Unit)
         Filter.filter(source, predicate)
             .assertNoValue()
 
@@ -43,7 +45,8 @@ class FilterTest {
         val predicate: (Unit?) -> Boolean = mockk()
         every { predicate(Unit) } returns true
 
-        val source = liveDataOf(Unit)
+        val source =
+            liveDataOf(Unit)
         Filter.filter(source, predicate)
             .assertValue(Unit)
 
@@ -56,7 +59,10 @@ class FilterTest {
     fun `filterNonNull - value is null - value is not passed`() {
         val predicate: (Unit?) -> Boolean = mockk()
 
-        Filter.filterNonNull(liveDataOf<Unit>(null), predicate)
+        Filter.filterNonNull(
+            liveDataOf<Unit>(
+                null
+            ), predicate)
             .assertNoValue()
 
         verify {
@@ -69,7 +75,8 @@ class FilterTest {
         val predicate: (Unit?) -> Boolean = mockk()
         every { predicate(Unit) } returns false
 
-        val source = liveDataOf(Unit)
+        val source =
+            liveDataOf(Unit)
         Filter.filterNonNull(source, predicate)
             .assertNoValue()
 
@@ -83,7 +90,8 @@ class FilterTest {
         val predicate: (Unit?) -> Boolean = mockk()
         every { predicate(Unit) } returns true
 
-        val source = liveDataOf(Unit)
+        val source =
+            liveDataOf(Unit)
         Filter.filterNonNull(source, predicate)
             .assertValue(Unit)
 
@@ -96,7 +104,8 @@ class FilterTest {
 
     @Test
     fun `filter extension function - calls Filter filter`() {
-        val source = emptyLiveData<Unit>()
+        val source =
+            emptyLiveData<Unit>()
         val predicate: (Unit?) -> Boolean = mockk()
 
         every { Filter.filter(source, predicate) } returns mockk()
@@ -110,7 +119,8 @@ class FilterTest {
 
     @Test
     fun `filterNonNull extension function - calls Filter filterNonNull`() {
-        val source = emptyLiveData<Unit>()
+        val source =
+            emptyLiveData<Unit>()
         val predicate: (Unit) -> Boolean = mockk()
 
         every { Filter.filterNonNull(source, predicate) } returns mockk()

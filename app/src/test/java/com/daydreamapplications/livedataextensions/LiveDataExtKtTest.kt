@@ -2,6 +2,7 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
+import com.daydreamapplications.livedataextensions.livedata.*
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +17,9 @@ class LiveDataExtKtTest {
         val mapper: (Unit?) -> String? = mockk()
         every { mapper(null) } returns "mapped value"
 
-        liveDataOf<Unit>(null)
+        liveDataOf<Unit>(
+            null
+        )
             .map(mapper)
             .assertValue("mapped value")
 
@@ -42,7 +45,8 @@ class LiveDataExtKtTest {
     @Test
     fun `switchMap - source has value - returns LiveData observing mapper result`() {
         val mapper: (Unit?) -> LiveData<String> = mockk()
-        val switchedLiveData = liveDataOf("mapped value")
+        val switchedLiveData =
+            liveDataOf("mapped value")
         every { mapper(Unit) } returns switchedLiveData
 
         liveDataOf(Unit)
@@ -58,7 +62,9 @@ class LiveDataExtKtTest {
     fun `mapNonNull - value is null - returns null`() {
         val mapNonNull: (Unit) -> String? = mockk()
 
-        liveDataOf<Unit>(null)
+        liveDataOf<Unit>(
+            null
+        )
             .mapNonNull(mapNonNull)
             .assertNoValue()
 
@@ -98,7 +104,9 @@ class LiveDataExtKtTest {
         val onNext: (Unit?) -> Unit = mockk()
         every { onNext(null) } just Runs
 
-        liveDataOf<Unit>(null)
+        liveDataOf<Unit>(
+            null
+        )
             .doOnNext(onNext)
             .test()
 
@@ -137,7 +145,9 @@ class LiveDataExtKtTest {
     fun `doOnNextNonNull - liveData has null value - onNext is not invoked`() {
         val onNext: (Unit?) -> Unit = mockk()
 
-        liveDataOf<Unit>(null)
+        liveDataOf<Unit>(
+            null
+        )
             .doOnNextNonNull(onNext)
             .test()
 

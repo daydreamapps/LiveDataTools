@@ -1,9 +1,9 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.Bools
-import com.daydreamapplications.livedataextensions.Zip
-import com.daydreamapplications.livedataextensions.map
+import com.daydreamapplications.livedataextensions.livedata.Zip
+import com.daydreamapplications.livedataextensions.livedata.map
+import com.daydreamapplications.livedataextensions.util.NullableLogicalOperations
 
 object StateResult {
 
@@ -25,9 +25,8 @@ object StateResult {
     ): LiveData<Boolean> {
         return Zip.zip2(
             source1.isError(),
-            source2.isError(),
-            Bools::nullableOr
-        )
+            source2.isError()
+        ) { first, second -> NullableLogicalOperations.nullableOr(first, second) }
     }
 
     /**
@@ -48,9 +47,8 @@ object StateResult {
     ): LiveData<Boolean> {
         return Zip.zip2(
             source1.isLoading(),
-            source2.isLoading(),
-            Bools::nullableOr
-        )
+            source2.isLoading()
+        ) { first, second -> NullableLogicalOperations.nullableOr(first, second) }
     }
 
     /**
@@ -71,9 +69,8 @@ object StateResult {
     ): LiveData<Boolean> {
         return Zip.zip2(
             source1.isSuccess(),
-            source2.isSuccess(),
-            Bools::nullableOr
-        )
+            source2.isSuccess()
+        ) { first, second -> NullableLogicalOperations.nullableOr(first, second) }
     }
 }
 

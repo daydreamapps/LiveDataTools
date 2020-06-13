@@ -1,7 +1,7 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.doOnNext
+import com.daydreamapplications.livedataextensions.livedata.doOnNext
 
 object DoOnOperations {
 

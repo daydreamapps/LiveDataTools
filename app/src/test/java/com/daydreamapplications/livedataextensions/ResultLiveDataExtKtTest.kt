@@ -2,7 +2,9 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.result.Result
+import com.daydreamapplications.livedataextensions.livedata.emptyLiveData
+import com.daydreamapplications.livedataextensions.livedata.liveDataOf
+import com.daydreamapplications.livedataextensions.livedata.result.*
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +18,9 @@ class ResultLiveDataExtKtTest {
     fun `defaultIfError - value is Result Error - value is false`() {
         val value: Result.Error = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .defaultIfError(Unit)
             .assertValue(Result.Success(Unit))
     }
@@ -25,7 +29,9 @@ class ResultLiveDataExtKtTest {
     fun `defaultIfError - value is Result Loading - value is false`() {
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .defaultIfError(Unit)
             .assertValue(value)
     }
@@ -34,14 +40,18 @@ class ResultLiveDataExtKtTest {
     fun `defaultIfError - value is Result Success - value is false`() {
         val value: Result.Success<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .defaultIfError(Unit)
             .assertValue(value)
     }
 
     @Test
     fun `defaultIfError - value is null - value is null`() {
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .defaultIfError(Unit)
             .assertValueIsNull()
     }
@@ -55,7 +65,9 @@ class ResultLiveDataExtKtTest {
         val mapper: (Throwable) -> Unit = mockk()
         every { mapper(throwable) } returns Unit
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .ifErrorReturn(mapper)
             .assertValue(Result.Success(Unit))
 
@@ -70,7 +82,9 @@ class ResultLiveDataExtKtTest {
         val mapper: (Throwable) -> Unit = mockk()
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .ifErrorReturn(mapper)
             .assertValue(value)
 
@@ -84,7 +98,9 @@ class ResultLiveDataExtKtTest {
         val mapper: (Throwable) -> Unit = mockk()
         val value: Result.Success<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .ifErrorReturn(mapper)
             .assertValue(value)
 
@@ -97,7 +113,9 @@ class ResultLiveDataExtKtTest {
     fun `ifErrorReturn - value is null - value is null`() {
         val mapper: (Throwable) -> Unit = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .ifErrorReturn(mapper)
             .assertValueIsNull()
 
@@ -116,7 +134,9 @@ class ResultLiveDataExtKtTest {
         val expectedResult: Result<Unit> = mockk()
         every { mapper(throwable) } returns expectedResult
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .ifErrorReturnResult(mapper)
             .assertValue(expectedResult)
 
@@ -131,7 +151,9 @@ class ResultLiveDataExtKtTest {
         val mapper: (Throwable) -> Result<Unit> = mockk()
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .ifErrorReturnResult(mapper)
             .assertValue(value)
 
@@ -145,7 +167,9 @@ class ResultLiveDataExtKtTest {
         val mapper: (Throwable) -> Result<Unit> = mockk()
         val value: Result.Success<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .ifErrorReturnResult(mapper)
             .assertValue(value)
 
@@ -158,7 +182,9 @@ class ResultLiveDataExtKtTest {
     fun `ifErrorReturnResult - value is null - value is null`() {
         val mapper: (Throwable) -> Result<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .ifErrorReturnResult(mapper)
             .assertValueIsNull()
 
@@ -173,7 +199,9 @@ class ResultLiveDataExtKtTest {
         val exceptionProvider: (Unit) -> Throwable = mockk()
         val value: Result.Error = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .errorIf(predicate, exceptionProvider)
             .assertValue(value)
 
@@ -189,7 +217,9 @@ class ResultLiveDataExtKtTest {
         val exceptionProvider: (Unit) -> Throwable = mockk()
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .errorIf(predicate, exceptionProvider)
             .assertValue(value)
 
@@ -211,7 +241,9 @@ class ResultLiveDataExtKtTest {
             every { data } returns Unit
         }
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .errorIf(predicate, exceptionProvider)
             .assertValue(Result.Error(throwable))
 
@@ -232,7 +264,9 @@ class ResultLiveDataExtKtTest {
             every { data } returns Unit
         }
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .errorIf(predicate, exceptionProvider)
             .assertValue(value)
 
@@ -247,7 +281,9 @@ class ResultLiveDataExtKtTest {
     fun `errorIf - value is null - value is null`() {
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .errorIf(predicate)
             .assertValueIsNull()
 
@@ -261,7 +297,9 @@ class ResultLiveDataExtKtTest {
         val result: Result.Error = mockk()
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .filterResult(predicate)
             .assertValue(result)
 
@@ -275,7 +313,9 @@ class ResultLiveDataExtKtTest {
         val result: Result.Loading = mockk()
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .filterResult(predicate)
             .assertValue(result)
 
@@ -292,7 +332,9 @@ class ResultLiveDataExtKtTest {
         val predicate: (Unit) -> Boolean = mockk()
         every { predicate(Unit) } returns true
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .filterResult(predicate)
             .assertValue(result)
 
@@ -311,7 +353,9 @@ class ResultLiveDataExtKtTest {
         val predicate: (Unit) -> Boolean = mockk()
         every { predicate(Unit) } returns false
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .filterResult(predicate)
             .assertNoValue()
 
@@ -325,7 +369,9 @@ class ResultLiveDataExtKtTest {
     fun `filterResult - value is null - returns Result Loading`() {
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .filterResult(predicate)
             .assertValueIsNull()
 
@@ -342,7 +388,9 @@ class ResultLiveDataExtKtTest {
         }
         val mapper: (Unit) -> String = mockk()
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .mapResult(mapper)
             .assertValue(Result.Error(throwable))
 
@@ -357,7 +405,9 @@ class ResultLiveDataExtKtTest {
         val result: Result.Loading = mockk()
         val mapper: (Unit) -> String = mockk()
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .mapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -374,7 +424,9 @@ class ResultLiveDataExtKtTest {
         val mapper: (Unit) -> String = mockk()
         every { mapper(Unit) } returns "Mapped value"
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .mapResult(mapper)
             .assertValue(Result.Success("Mapped value"))
 
@@ -388,7 +440,9 @@ class ResultLiveDataExtKtTest {
     fun `mapResult - value is null - returns Result Loading`() {
         val mapper: (Unit) -> String = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .mapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -405,7 +459,9 @@ class ResultLiveDataExtKtTest {
         }
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .switchMapResult(mapper)
             .assertValue(value)
 
@@ -420,7 +476,9 @@ class ResultLiveDataExtKtTest {
         val result: Result.Loading = mockk()
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .switchMapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -436,10 +494,15 @@ class ResultLiveDataExtKtTest {
         }
         val mappedValue: Result<String> = mockk()
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
-        val mappedLiveData = liveDataOf<Result<String>>(mappedValue)
+        val mappedLiveData =
+            liveDataOf<Result<String>>(
+                mappedValue
+            )
         every { mapper(Unit) } returns mappedLiveData
 
-        liveDataOf<Result<Unit>>(result)
+        liveDataOf<Result<Unit>>(
+            result
+        )
             .switchMapResult(mapper)
             .assertValue(mappedValue)
 
@@ -453,7 +516,9 @@ class ResultLiveDataExtKtTest {
     fun `switchMapResult - value is null - returns Result Loading`() {
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .switchMapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -486,12 +551,20 @@ class ResultLiveDataExtKtTest {
     fun `switchMapResult - first is loading, second is empty - returns Result Loading`() {
         val value1 = Result.Loading
 
-        val source1: LiveData<Result<Unit>> = liveDataOf(value1)
-        val source2: LiveData<Result<Unit>> = emptyLiveData()
+        val source1: LiveData<Result<Unit>> =
+            liveDataOf(
+                value1
+            )
+        val source2: LiveData<Result<Unit>> =
+            emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(source1, source2, mapper)
+        zipResult(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(Result.Loading)
 
         verifySequence {
@@ -503,12 +576,20 @@ class ResultLiveDataExtKtTest {
     fun `switchMapResult - first is success, second is empty - returns Result Loading`() {
         val value1: Result.Success<Unit> = mockk()
 
-        val source1: LiveData<Result<Unit>> = liveDataOf(value1)
-        val source2: LiveData<Result<Unit>> = emptyLiveData()
+        val source1: LiveData<Result<Unit>> =
+            liveDataOf(
+                value1
+            )
+        val source2: LiveData<Result<Unit>> =
+            emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(source1, source2, mapper)
+        zipResult(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(Result.Loading)
 
         verifySequence {
@@ -518,12 +599,18 @@ class ResultLiveDataExtKtTest {
 
     @Test
     fun `switchMapResult - first is null, second is empty - returns Result Loading`() {
-        val source1: LiveData<Result<Unit>> = liveDataOf(null)
-        val source2: LiveData<Result<Unit>> = emptyLiveData()
+        val source1: LiveData<Result<Unit>> =
+            liveDataOf(null)
+        val source2: LiveData<Result<Unit>> =
+            emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(source1, source2, mapper)
+        zipResult(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(Result.Loading)
 
         verifySequence {
@@ -535,12 +622,20 @@ class ResultLiveDataExtKtTest {
     fun `switchMapResult - first is error, second is empty - returns Result Error`() {
         val value1: Result.Error = mockk()
 
-        val source1: LiveData<Result<Unit>> = liveDataOf(value1)
-        val source2: LiveData<Result<Unit>> = emptyLiveData()
+        val source1: LiveData<Result<Unit>> =
+            liveDataOf(
+                value1
+            )
+        val source2: LiveData<Result<Unit>> =
+            emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(source1, source2, mapper)
+        zipResult(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(value1)
 
         verifySequence {
@@ -552,12 +647,20 @@ class ResultLiveDataExtKtTest {
     fun `switchMapResult - first is empty, second is error - returns Result Error`() {
         val value2: Result.Error = mockk()
 
-        val source1: LiveData<Result<Unit>> = emptyLiveData()
-        val source2: LiveData<Result<Unit>> = liveDataOf(value2)
+        val source1: LiveData<Result<Unit>> =
+            emptyLiveData()
+        val source2: LiveData<Result<Unit>> =
+            liveDataOf(
+                value2
+            )
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(source1, source2, mapper)
+        zipResult(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(value2)
 
         verifySequence {
@@ -570,13 +673,23 @@ class ResultLiveDataExtKtTest {
         val value1 = Result.Success("1")
         val value2 = Result.Success("2")
 
-        val source1: LiveData<Result<String>> = liveDataOf(value1)
-        val source2: LiveData<Result<String>> = liveDataOf(value2)
+        val source1: LiveData<Result<String>> =
+            liveDataOf(
+                value1
+            )
+        val source2: LiveData<Result<String>> =
+            liveDataOf(
+                value2
+            )
 
         val mapper: (String, String) -> Unit = mockk()
         every { mapper("1", "2") } returns Unit
 
-        zipResult(source1, source2, mapper)
+        zipResult(
+            source1,
+            source2,
+            mapper
+        )
             .assertValue(Result.Success(Unit))
 
         verifySequence {
