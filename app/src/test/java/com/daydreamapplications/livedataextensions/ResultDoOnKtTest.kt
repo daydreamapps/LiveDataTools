@@ -18,9 +18,7 @@ class ResultDoOnKtTest {
     fun `defaultIfError - value is Result Error - value is false`() {
         val value: Result.Error = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .defaultIfError(Unit)
             .assertValue(Result.Success(Unit))
     }
@@ -29,9 +27,7 @@ class ResultDoOnKtTest {
     fun `defaultIfError - value is Result Loading - value is false`() {
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .defaultIfError(Unit)
             .assertValue(value)
     }
@@ -40,18 +36,14 @@ class ResultDoOnKtTest {
     fun `defaultIfError - value is Result Success - value is false`() {
         val value: Result.Success<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .defaultIfError(Unit)
             .assertValue(value)
     }
 
     @Test
     fun `defaultIfError - value is null - value is null`() {
-        liveDataOf<Result<Unit>>(
-            null
-        )
+        liveDataOf<Result<Unit>>(null)
             .defaultIfError(Unit)
             .assertValueIsNull()
     }
@@ -60,19 +52,17 @@ class ResultDoOnKtTest {
     fun `ifErrorReturn - value is Result Error - value is false`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Throwable) -> Unit = mockk()
         every { mapper(throwable) } returns Unit
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .ifErrorReturn(mapper)
             .assertValue(Result.Success(Unit))
 
         verifySequence {
-            value.exception
+            value.cause
             mapper(throwable)
         }
     }
@@ -82,9 +72,7 @@ class ResultDoOnKtTest {
         val mapper: (Throwable) -> Unit = mockk()
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .ifErrorReturn(mapper)
             .assertValue(value)
 
@@ -98,9 +86,7 @@ class ResultDoOnKtTest {
         val mapper: (Throwable) -> Unit = mockk()
         val value: Result.Success<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .ifErrorReturn(mapper)
             .assertValue(value)
 
@@ -128,20 +114,18 @@ class ResultDoOnKtTest {
     fun `ifErrorReturnResult - value is Result Error - value is false`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Throwable) -> Result<Unit> = mockk()
         val expectedResult: Result<Unit> = mockk()
         every { mapper(throwable) } returns expectedResult
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .ifErrorReturnResult(mapper)
             .assertValue(expectedResult)
 
         verifySequence {
-            value.exception
+            value.cause
             mapper(throwable)
         }
     }
@@ -151,9 +135,7 @@ class ResultDoOnKtTest {
         val mapper: (Throwable) -> Result<Unit> = mockk()
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .ifErrorReturnResult(mapper)
             .assertValue(value)
 
@@ -167,9 +149,7 @@ class ResultDoOnKtTest {
         val mapper: (Throwable) -> Result<Unit> = mockk()
         val value: Result.Success<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .ifErrorReturnResult(mapper)
             .assertValue(value)
 
@@ -182,9 +162,7 @@ class ResultDoOnKtTest {
     fun `ifErrorReturnResult - value is null - value is null`() {
         val mapper: (Throwable) -> Result<Unit> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            null
-        )
+        liveDataOf<Result<Unit>>(null)
             .ifErrorReturnResult(mapper)
             .assertValueIsNull()
 
@@ -199,9 +177,7 @@ class ResultDoOnKtTest {
         val exceptionProvider: (Unit) -> Throwable = mockk()
         val value: Result.Error = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .errorIf(predicate, exceptionProvider)
             .assertValue(value)
 
@@ -217,9 +193,7 @@ class ResultDoOnKtTest {
         val exceptionProvider: (Unit) -> Throwable = mockk()
         val value: Result.Loading = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .errorIf(predicate, exceptionProvider)
             .assertValue(value)
 
@@ -264,9 +238,7 @@ class ResultDoOnKtTest {
             every { data } returns Unit
         }
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .errorIf(predicate, exceptionProvider)
             .assertValue(value)
 
@@ -281,9 +253,7 @@ class ResultDoOnKtTest {
     fun `errorIf - value is null - value is null`() {
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(
-            null
-        )
+        liveDataOf<Result<Unit>>(null)
             .errorIf(predicate)
             .assertValueIsNull()
 
@@ -297,9 +267,7 @@ class ResultDoOnKtTest {
         val result: Result.Error = mockk()
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .filterResult(predicate)
             .assertValue(result)
 
@@ -313,9 +281,7 @@ class ResultDoOnKtTest {
         val result: Result.Loading = mockk()
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .filterResult(predicate)
             .assertValue(result)
 
@@ -332,9 +298,7 @@ class ResultDoOnKtTest {
         val predicate: (Unit) -> Boolean = mockk()
         every { predicate(Unit) } returns true
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .filterResult(predicate)
             .assertValue(result)
 
@@ -353,9 +317,7 @@ class ResultDoOnKtTest {
         val predicate: (Unit) -> Boolean = mockk()
         every { predicate(Unit) } returns false
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .filterResult(predicate)
             .assertNoValue()
 
@@ -369,9 +331,7 @@ class ResultDoOnKtTest {
     fun `filterResult - value is null - returns Result Loading`() {
         val predicate: (Unit) -> Boolean = mockk()
 
-        liveDataOf<Result<Unit>>(
-            null
-        )
+        liveDataOf<Result<Unit>>(null)
             .filterResult(predicate)
             .assertValueIsNull()
 
@@ -384,18 +344,16 @@ class ResultDoOnKtTest {
     fun `mapResult - value is Result Error - returns Result Error`() {
         val throwable: Throwable = mockk()
         val result: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Unit) -> String = mockk()
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .mapResult(mapper)
             .assertValue(Result.Error(throwable))
 
         verifySequence {
-            result.exception
+            result.cause
             mapper wasNot Called
         }
     }
@@ -405,9 +363,7 @@ class ResultDoOnKtTest {
         val result: Result.Loading = mockk()
         val mapper: (Unit) -> String = mockk()
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .mapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -424,9 +380,7 @@ class ResultDoOnKtTest {
         val mapper: (Unit) -> String = mockk()
         every { mapper(Unit) } returns "Mapped value"
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .mapResult(mapper)
             .assertValue(Result.Success("Mapped value"))
 
@@ -440,9 +394,7 @@ class ResultDoOnKtTest {
     fun `mapResult - value is null - returns Result Loading`() {
         val mapper: (Unit) -> String = mockk()
 
-        liveDataOf<Result<Unit>>(
-            null
-        )
+        liveDataOf<Result<Unit>>(null)
             .mapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -455,18 +407,16 @@ class ResultDoOnKtTest {
     fun `switchMapResult - value is Result Error - returns Result Error`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            value
-        )
+        liveDataOf<Result<Unit>>(value)
             .switchMapResult(mapper)
             .assertValue(value)
 
         verifySequence {
-            value.exception
+            value.cause
             mapper wasNot Called
         }
     }
@@ -476,9 +426,7 @@ class ResultDoOnKtTest {
         val result: Result.Loading = mockk()
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .switchMapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -494,15 +442,10 @@ class ResultDoOnKtTest {
         }
         val mappedValue: Result<String> = mockk()
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
-        val mappedLiveData =
-            liveDataOf<Result<String>>(
-                mappedValue
-            )
+        val mappedLiveData = liveDataOf<Result<String>>(mappedValue)
         every { mapper(Unit) } returns mappedLiveData
 
-        liveDataOf<Result<Unit>>(
-            result
-        )
+        liveDataOf<Result<Unit>>(result)
             .switchMapResult(mapper)
             .assertValue(mappedValue)
 
@@ -516,9 +459,7 @@ class ResultDoOnKtTest {
     fun `switchMapResult - value is null - returns Result Loading`() {
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
-        liveDataOf<Result<Unit>>(
-            null
-        )
+        liveDataOf<Result<Unit>>(null)
             .switchMapResult(mapper)
             .assertValue(Result.Loading)
 
@@ -527,44 +468,16 @@ class ResultDoOnKtTest {
         }
     }
 
-
-//
-//    @Test
-//    fun `switchMapResult - value is Result Error - returns Result Error`() {
-//        val throwable: Throwable = mockk()
-//        val value: Result.Error = mockk {
-//            every { exception } returns throwable
-//        }
-//        val mapper: (Unit) -> LiveData<Result<String>> = mockk()
-//
-//        liveDataOf<Result<Unit>>(value)
-//            .switchMapResult(mapper)
-//            .assertValue(value)
-//
-//        verifySequence {
-//            value.exception
-//            mapper wasNot Called
-//        }
-//    }
-
     @Test
     fun `switchMapResult - first is loading, second is empty - returns Result Loading`() {
         val value1 = Result.Loading
 
-        val source1: LiveData<Result<Unit>> =
-            liveDataOf(
-                value1
-            )
-        val source2: LiveData<Result<Unit>> =
-            emptyLiveData()
+        val source1: LiveData<Result<Unit>> = liveDataOf(value1)
+        val source2: LiveData<Result<Unit>> = emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(
-            source1,
-            source2,
-            mapper
-        )
+        zipResult(source1, source2, mapper)
             .assertValue(Result.Loading)
 
         verifySequence {
@@ -576,20 +489,12 @@ class ResultDoOnKtTest {
     fun `switchMapResult - first is success, second is empty - returns Result Loading`() {
         val value1: Result.Success<Unit> = mockk()
 
-        val source1: LiveData<Result<Unit>> =
-            liveDataOf(
-                value1
-            )
-        val source2: LiveData<Result<Unit>> =
-            emptyLiveData()
+        val source1: LiveData<Result<Unit>> = liveDataOf(value1)
+        val source2: LiveData<Result<Unit>> = emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(
-            source1,
-            source2,
-            mapper
-        )
+        zipResult(source1, source2, mapper)
             .assertValue(Result.Loading)
 
         verifySequence {
@@ -599,18 +504,12 @@ class ResultDoOnKtTest {
 
     @Test
     fun `switchMapResult - first is null, second is empty - returns Result Loading`() {
-        val source1: LiveData<Result<Unit>> =
-            liveDataOf(null)
-        val source2: LiveData<Result<Unit>> =
-            emptyLiveData()
+        val source1: LiveData<Result<Unit>> = liveDataOf(null)
+        val source2: LiveData<Result<Unit>> = emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(
-            source1,
-            source2,
-            mapper
-        )
+        zipResult(source1, source2, mapper)
             .assertValue(Result.Loading)
 
         verifySequence {
@@ -622,20 +521,12 @@ class ResultDoOnKtTest {
     fun `switchMapResult - first is error, second is empty - returns Result Error`() {
         val value1: Result.Error = mockk()
 
-        val source1: LiveData<Result<Unit>> =
-            liveDataOf(
-                value1
-            )
-        val source2: LiveData<Result<Unit>> =
-            emptyLiveData()
+        val source1: LiveData<Result<Unit>> = liveDataOf(value1)
+        val source2: LiveData<Result<Unit>> = emptyLiveData()
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(
-            source1,
-            source2,
-            mapper
-        )
+        zipResult(source1, source2, mapper)
             .assertValue(value1)
 
         verifySequence {
@@ -647,20 +538,12 @@ class ResultDoOnKtTest {
     fun `switchMapResult - first is empty, second is error - returns Result Error`() {
         val value2: Result.Error = mockk()
 
-        val source1: LiveData<Result<Unit>> =
-            emptyLiveData()
-        val source2: LiveData<Result<Unit>> =
-            liveDataOf(
-                value2
-            )
+        val source1: LiveData<Result<Unit>> = emptyLiveData()
+        val source2: LiveData<Result<Unit>> = liveDataOf(value2)
 
         val mapper: (Unit, Unit) -> Unit = mockk()
 
-        zipResult(
-            source1,
-            source2,
-            mapper
-        )
+        zipResult(source1, source2, mapper)
             .assertValue(value2)
 
         verifySequence {
@@ -673,23 +556,13 @@ class ResultDoOnKtTest {
         val value1 = Result.Success("1")
         val value2 = Result.Success("2")
 
-        val source1: LiveData<Result<String>> =
-            liveDataOf(
-                value1
-            )
-        val source2: LiveData<Result<String>> =
-            liveDataOf(
-                value2
-            )
+        val source1: LiveData<Result<String>> = liveDataOf(value1)
+        val source2: LiveData<Result<String>> = liveDataOf(value2)
 
         val mapper: (String, String) -> Unit = mockk()
         every { mapper("1", "2") } returns Unit
 
-        zipResult(
-            source1,
-            source2,
-            mapper
-        )
+        zipResult(source1, source2, mapper)
             .assertValue(Result.Success(Unit))
 
         verifySequence {

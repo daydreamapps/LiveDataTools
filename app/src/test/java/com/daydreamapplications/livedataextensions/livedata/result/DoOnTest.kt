@@ -6,13 +6,25 @@ import com.daydreamapplications.livedataextensions.livedata.emptyLiveData
 import com.daydreamapplications.livedataextensions.livedata.liveDataOf
 import com.daydreamapplications.livedataextensions.test
 import io.mockk.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class DoOnOperationsTest {
+class DoOnTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp() {
+        mockkObject(DoOn)
+    }
+
+    @After
+    fun tearDown() {
+        unmockkObject(DoOn)
+    }
 
     // Object functionality tests
 
@@ -24,7 +36,7 @@ class DoOnOperationsTest {
 
         val source =
             emptyLiveData<Result<Unit>>()
-        DoOnOperations.doOnNextResult(
+        DoOn.doOnNextResult(
             source = source,
             onError = onError,
             onSuccess = onSuccess,
@@ -48,7 +60,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 null
             )
-        DoOnOperations.doOnNextResult(
+        DoOn.doOnNextResult(
             source = source,
             onError = onError,
             onSuccess = onSuccess,
@@ -70,14 +82,14 @@ class DoOnOperationsTest {
         val onSuccess: (Unit) -> Unit = mockk()
         val onLoading: () -> Unit = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
 
         val source =
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnNextResult(
+        DoOn.doOnNextResult(
             source = source,
             onError = onError,
             onSuccess = onSuccess,
@@ -85,7 +97,7 @@ class DoOnOperationsTest {
         ).test()
 
         verifySequence {
-            value.exception
+            value.cause
             onError(throwable)
             onSuccess wasNot Called
             onLoading wasNot Called
@@ -104,7 +116,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnNextResult(
+        DoOn.doOnNextResult(
             source = source,
             onError = onError,
             onSuccess = onSuccess,
@@ -132,7 +144,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnNextResult(
+        DoOn.doOnNextResult(
             source = source,
             onError = onError,
             onSuccess = onSuccess,
@@ -148,12 +160,12 @@ class DoOnOperationsTest {
     }
 
     @Test
-    fun `doOnError - liveData has Error value - onError is invoked with exception`() {
+    fun `doOnError - liveData has Error value - onError is invoked with cause`() {
         val throwable: Throwable = mockk()
         val onError: (Throwable) -> Unit = mockk()
         every { onError(throwable) } just Runs
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
 
         liveDataOf<Result<Unit>>(
@@ -163,7 +175,7 @@ class DoOnOperationsTest {
             .test()
 
         verifySequence {
-            value.exception
+            value.cause
             onError(throwable)
         }
     }
@@ -177,7 +189,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnError(source, onError)
+        DoOn.doOnError(source, onError)
             .test()
 
         verify {
@@ -196,7 +208,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnError(source, onError)
+        DoOn.doOnError(source, onError)
             .test()
 
         verify {
@@ -209,14 +221,14 @@ class DoOnOperationsTest {
         val throwable: Throwable = mockk()
         val onLoading: () -> Unit = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
 
         val source =
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnLoading(source, onLoading)
+        DoOn.doOnLoading(source, onLoading)
             .test()
 
         verify {
@@ -234,7 +246,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnLoading(source, onLoading)
+        DoOn.doOnLoading(source, onLoading)
             .test()
 
         verifySequence {
@@ -253,7 +265,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnLoading(source, onLoading)
+        DoOn.doOnLoading(source, onLoading)
             .test()
 
         verify {
@@ -270,7 +282,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnSuccess(source, onSuccess)
+        DoOn.doOnSuccess(source, onSuccess)
             .test()
 
         verify {
@@ -287,7 +299,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnSuccess(source, onSuccess)
+        DoOn.doOnSuccess(source, onSuccess)
             .test()
 
         verify {
@@ -307,7 +319,7 @@ class DoOnOperationsTest {
             liveDataOf<Result<Unit>>(
                 value
             )
-        DoOnOperations.doOnSuccess(source, onSuccess)
+        DoOn.doOnSuccess(source, onSuccess)
             .test()
 
         verifySequence {
@@ -325,9 +337,8 @@ class DoOnOperationsTest {
         val onSuccess: ((Unit) -> Unit)? = mockk()
         val onLoading: (() -> Unit)? = mockk()
 
-        mockkObject(DoOnOperations)
         every {
-            DoOnOperations.doOnNextResult(
+            DoOn.doOnNextResult(
                 source = source,
                 onError = onError,
                 onSuccess = onSuccess,
@@ -342,7 +353,7 @@ class DoOnOperationsTest {
         )
 
         verify {
-            DoOnOperations.doOnNextResult(
+            DoOn.doOnNextResult(
                 source = source,
                 onError = onError,
                 onSuccess = onSuccess,
@@ -356,9 +367,8 @@ class DoOnOperationsTest {
         val source: LiveData<Result<Unit>> = mockk()
         val onError: (Throwable) -> Unit = mockk()
 
-        mockkObject(DoOnOperations)
         every {
-            DoOnOperations.doOnError(
+            DoOn.doOnError(
                 source = source,
                 onError = onError
             )
@@ -367,7 +377,7 @@ class DoOnOperationsTest {
         source.doOnError(onError = onError)
 
         verify {
-            DoOnOperations.doOnError(
+            DoOn.doOnError(
                 source = source,
                 onError = onError
             )
@@ -379,9 +389,8 @@ class DoOnOperationsTest {
         val source: LiveData<Result<Unit>> = mockk()
         val onLoading: () -> Unit = mockk()
 
-        mockkObject(DoOnOperations)
         every {
-            DoOnOperations.doOnLoading(
+            DoOn.doOnLoading(
                 source = source,
                 onLoading = onLoading
             )
@@ -390,7 +399,7 @@ class DoOnOperationsTest {
         source.doOnLoading(onLoading = onLoading)
 
         verify {
-            DoOnOperations.doOnLoading(
+            DoOn.doOnLoading(
                 source = source,
                 onLoading = onLoading
             )
@@ -402,9 +411,8 @@ class DoOnOperationsTest {
         val source: LiveData<Result<Unit>> = mockk()
         val onSuccess: (Unit) -> Unit = mockk()
 
-        mockkObject(DoOnOperations)
         every {
-            DoOnOperations.doOnSuccess(
+            DoOn.doOnSuccess(
                 source = source,
                 onSuccess = onSuccess
             )
@@ -413,7 +421,7 @@ class DoOnOperationsTest {
         source.doOnSuccess(onSuccess = onSuccess)
 
         verify {
-            DoOnOperations.doOnSuccess(
+            DoOn.doOnSuccess(
                 source = source,
                 onSuccess = onSuccess
             )

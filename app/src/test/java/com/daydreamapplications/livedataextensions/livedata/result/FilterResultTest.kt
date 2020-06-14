@@ -32,7 +32,7 @@ class FilterResultTest {
     fun `filterError - value is Result Error - value is exception`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val source =
             liveDataOf<Result<Unit>>(
@@ -43,7 +43,7 @@ class FilterResultTest {
             .assertValue(throwable)
 
         verifySequence {
-            value.exception
+            value.cause
         }
     }
 

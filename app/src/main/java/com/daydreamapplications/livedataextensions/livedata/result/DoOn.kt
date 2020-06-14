@@ -3,14 +3,14 @@ package com.daydreamapplications.livedataextensions.livedata.result
 import androidx.lifecycle.LiveData
 import com.daydreamapplications.livedataextensions.livedata.doOnNext
 
-object DoOnOperations {
+object DoOn {
 
     /**
-     * Perform an action for each emitted value corresponding to value type
+     * Modifies the source LiveData so that it invokes an action when a Result value in emitted.
      *
-     * Perform onError acton on Error values
-     * Perform onSuccess acton on Loading values
-     * Perform onLoading acton on Success values
+     * @param onError acton to perform on Result.Error values
+     * @param onSuccess acton to perform on Result.Loading values
+     * @param onLoading acton to perform on Result.Success values
      */
     fun <T> doOnNextResult(
         source: LiveData<Result<T>>,
@@ -20,7 +20,7 @@ object DoOnOperations {
     ): LiveData<Result<T>> {
         return source.doOnNext { result ->
             when (result) {
-                is Result.Error -> onError?.invoke(result.exception)
+                is Result.Error -> onError?.invoke(result.cause)
                 is Result.Loading -> onLoading?.invoke()
                 is Result.Success -> onSuccess?.invoke(result.data)
             }
@@ -28,7 +28,7 @@ object DoOnOperations {
     }
 
     /**
-     * Perform action on each emitted Error value
+     * Modifies the source LiveData so that it invokes an action when a Result.Error value in emitted.
      */
     fun <T> doOnError(
         source: LiveData<Result<T>>,
@@ -43,7 +43,7 @@ object DoOnOperations {
     }
 
     /**
-     * Perform action on each emitted Loading value
+     * Modifies the source LiveData so that it invokes an action when a Result.Loading value in emitted.
      */
     fun <T> doOnLoading(source: LiveData<Result<T>>, onLoading: () -> Unit): LiveData<Result<T>> {
         return doOnNextResult(
@@ -55,7 +55,7 @@ object DoOnOperations {
     }
 
     /**
-     * Perform action on each emitted Success value
+     * Modifies the source LiveData so that it invokes an action when a Result.Success value in emitted.
      */
     fun <T> doOnSuccess(source: LiveData<Result<T>>, onSuccess: (T) -> Unit): LiveData<Result<T>> {
         return doOnNextResult(
@@ -69,15 +69,18 @@ object DoOnOperations {
 
 
 /**
- * Convenience extension function for DoOnOperations.doOnNextResult
- * @see DoOnOperations.doOnNextResult
+ * Modifies the source LiveData so that it invokes an action when a Result value in emitted.
+ *
+ * @param onError acton to perform on Result.Error values
+ * @param onSuccess acton to perform on Result.Loading values
+ * @param onLoading acton to perform on Result.Success values
  */
 fun <T> LiveData<Result<T>>.doOnNextResult(
     onError: ((Throwable) -> Unit)? = {},
     onSuccess: ((T) -> Unit)? = {},
     onLoading: (() -> Unit)? = {}
 ): LiveData<Result<T>> {
-    return DoOnOperations.doOnNextResult(
+    return DoOn.doOnNextResult(
         source = this,
         onError = onError,
         onSuccess = onSuccess,
@@ -86,25 +89,22 @@ fun <T> LiveData<Result<T>>.doOnNextResult(
 }
 
 /**
- * Convenience extension function for DoOnOperations.doOnNextResult
- * @see DoOnOperations.doOnError
+ * Modifies the source LiveData so that it invokes an action when a Result.Error value in emitted.
  */
 fun <T> LiveData<Result<T>>.doOnError(onError: (Throwable) -> Unit): LiveData<Result<T>> {
-    return DoOnOperations.doOnError(source = this, onError = onError)
+    return DoOn.doOnError(source = this, onError = onError)
 }
 
 /**
- * Convenience extension function for DoOnOperations.doOnNextResult
- * @see DoOnOperations.doOnLoading
+ * Modifies the source LiveData so that it invokes an action when a Result.Loading value in emitted.
  */
 fun <T> LiveData<Result<T>>.doOnLoading(onLoading: () -> Unit): LiveData<Result<T>> {
-    return DoOnOperations.doOnLoading(source = this, onLoading = onLoading)
+    return DoOn.doOnLoading(source = this, onLoading = onLoading)
 }
 
 /**
- * Convenience extension function for DoOnOperations.doOnNextResult
- * @see DoOnOperations.doOnSuccess
+ * Modifies the source LiveData so that it invokes an action when a Result.Success value in emitted.
  */
 fun <T> LiveData<Result<T>>.doOnSuccess(onSuccess: (T) -> Unit): LiveData<Result<T>> {
-    return DoOnOperations.doOnSuccess(source = this, onSuccess = onSuccess)
+    return DoOn.doOnSuccess(source = this, onSuccess = onSuccess)
 }

@@ -9,10 +9,10 @@ package com.daydreamapplications.livedataextensions.livedata.result
  */
 sealed class Result<out T> {
 
-    data class Error(val exception: Throwable) : Result<Nothing>() {
+    data class Error(val cause: Throwable) : Result<Nothing>() {
 
         override fun toString(): String {
-            return "Result.Error(exception = $exception)"
+            return "Result.Error(cause = $cause)"
         }
     }
 
@@ -40,30 +40,22 @@ sealed class Result<out T> {
     }
 
     /**
-     * If instance is a Success object returns it's data, else returns null
-     *
-     * @returns Result.Success.data : T, else null
+     * If instance is a Success object return Success.data, else returns null
      */
     fun getIfSuccessful(): T? = if (this is Success) data else null
 
     /**
-     * If instance is Error object true
-     *
-     * @returns Boolean, true if Result.Error
+     * Return true if instance is Result.Error
      */
     val isError: Boolean get() = this is Error
 
     /**
-     * If instance is Loading object true
-     *
-     * @returns Boolean, true if Result.Loading
+     * Return true if instance is Result.Loading
      */
     val isLoading: Boolean get() = this is Loading
 
     /**
-     * If instance is Success object true
-     *
-     * @returns Boolean, true if Result.Success
+     * Return true if instance is Result.Success
      */
     val isSuccess: Boolean get() = this is Success
 }

@@ -11,7 +11,7 @@ object FilterResult {
      */
     fun <S> filterError(source: LiveData<Result<S>>): LiveData<Throwable> {
         return source.filter { it is Result.Error }
-            .map { (it as Result.Error).exception }
+            .map { (it as Result.Error).cause }
     }
 
     /**
