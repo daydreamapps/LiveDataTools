@@ -1,4 +1,5 @@
 # LiveDataTools
+![Jenkins Status](http://jenkins.daydreamapplications.com/buildStatus/icon?subject=Jenkins%20CI&job=LiveDate+Extensions%2Fmaster)
 ![Unit Tests](https://github.com/daydreamapps/LiveDataTools/workflows/Unit%20Tests/badge.svg)
 
 Collection of utility &amp; extension functions for LiveData
