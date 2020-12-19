@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply from: "$project.rootDir/jacoco.gradle"
+
 android {
     compileSdkVersion 29
 
@@ -21,6 +23,18 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+        lintConfig file("../lint.xml")
+    }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
 }
 
 dependencies {
