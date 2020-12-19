@@ -1,8 +1,11 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.daydreamapplications.livedataextensions.result.Result
+import com.daydreamapplications.livedataextensions.livedata.filter
+import com.daydreamapplications.livedataextensions.livedata.liveDataOf
+import com.daydreamapplications.livedataextensions.livedata.map
+import com.daydreamapplications.livedataextensions.livedata.switchMap
 
 
 /**
@@ -26,7 +29,7 @@ fun <T> LiveData<Result<T>>.defaultIfError(default: T): LiveData<Result<T>> {
 fun <T> LiveData<Result<T>>.ifErrorReturn(mapper: (Throwable) -> T): LiveData<Result<T>> {
     return map { result ->
         if (result is Result.Error) {
-            Result.Success(mapper(result.exception))
+            Result.Success(mapper(result.cause))
         } else {
             result
         }
@@ -40,7 +43,7 @@ fun <T> LiveData<Result<T>>.ifErrorReturn(mapper: (Throwable) -> T): LiveData<Re
 fun <T> LiveData<Result<T>>.ifErrorReturnResult(mapper: (Throwable) -> Result<T>): LiveData<Result<T>> {
     return map { result ->
         if (result is Result.Error) {
-            mapper(result.exception)
+            mapper(result.cause)
         } else {
             result
         }
@@ -80,7 +83,7 @@ fun <S, T> LiveData<Result<S>>.mapResult(mapper: (S) -> T): LiveData<Result<T>> 
     return map { result ->
         when (result) {
             is Result.Success -> Result.Success(mapper(result.data))
-            is Result.Error -> Result.Error(result.exception)
+            is Result.Error -> Result.Error(result.cause)
             else -> Result.Loading
         }
     }
@@ -95,7 +98,7 @@ fun <S, T> LiveData<Result<S>>.switchMapResult(mapper: (S) -> LiveData<Result<T>
         when (result) {
             is Result.Success -> mapper(result.data)
             is Result.Error -> liveDataOf<Result<T>>(
-                Result.Error(result.exception)
+                Result.Error(result.cause)
             )
             else -> liveDataOf<Result<T>>(
                 Result.Loading
@@ -118,12 +121,22 @@ fun <S1, S2, T> zipResult(
     val mediator = MediatorLiveData<Result<T>>()
 
     mediator.addSource(source1) { value1 ->
-        val mappedValue = performMap(value1, source2.value, mapper)
+        val mappedValue =
+            performMap(
+                value1,
+                source2.value,
+                mapper
+            )
         mediator.postValue(mappedValue)
     }
 
     mediator.addSource(source2) { value2 ->
-        val mappedValue = performMap(source1.value, value2, mapper)
+        val mappedValue =
+            performMap(
+                source1.value,
+                value2,
+                mapper
+            )
         mediator.postValue(mappedValue)
     }
 

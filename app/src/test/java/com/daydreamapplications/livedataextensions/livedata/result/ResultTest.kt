@@ -1,6 +1,5 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.livedata.result
 
-import com.daydreamapplications.livedataextensions.result.Result
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

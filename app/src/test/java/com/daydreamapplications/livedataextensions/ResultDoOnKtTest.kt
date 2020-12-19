@@ -2,12 +2,14 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.result.Result
+import com.daydreamapplications.livedataextensions.livedata.emptyLiveData
+import com.daydreamapplications.livedataextensions.livedata.liveDataOf
+import com.daydreamapplications.livedataextensions.livedata.result.*
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
 
-class ResultLiveDataExtKtTest {
+class ResultDoOnKtTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -50,7 +52,7 @@ class ResultLiveDataExtKtTest {
     fun `ifErrorReturn - value is Result Error - value is false`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Throwable) -> Unit = mockk()
         every { mapper(throwable) } returns Unit
@@ -60,7 +62,7 @@ class ResultLiveDataExtKtTest {
             .assertValue(Result.Success(Unit))
 
         verifySequence {
-            value.exception
+            value.cause
             mapper(throwable)
         }
     }
@@ -97,7 +99,9 @@ class ResultLiveDataExtKtTest {
     fun `ifErrorReturn - value is null - value is null`() {
         val mapper: (Throwable) -> Unit = mockk()
 
-        liveDataOf<Result<Unit>>(null)
+        liveDataOf<Result<Unit>>(
+            null
+        )
             .ifErrorReturn(mapper)
             .assertValueIsNull()
 
@@ -110,7 +114,7 @@ class ResultLiveDataExtKtTest {
     fun `ifErrorReturnResult - value is Result Error - value is false`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Throwable) -> Result<Unit> = mockk()
         val expectedResult: Result<Unit> = mockk()
@@ -121,7 +125,7 @@ class ResultLiveDataExtKtTest {
             .assertValue(expectedResult)
 
         verifySequence {
-            value.exception
+            value.cause
             mapper(throwable)
         }
     }
@@ -211,7 +215,9 @@ class ResultLiveDataExtKtTest {
             every { data } returns Unit
         }
 
-        liveDataOf<Result<Unit>>(value)
+        liveDataOf<Result<Unit>>(
+            value
+        )
             .errorIf(predicate, exceptionProvider)
             .assertValue(Result.Error(throwable))
 
@@ -338,7 +344,7 @@ class ResultLiveDataExtKtTest {
     fun `mapResult - value is Result Error - returns Result Error`() {
         val throwable: Throwable = mockk()
         val result: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Unit) -> String = mockk()
 
@@ -347,7 +353,7 @@ class ResultLiveDataExtKtTest {
             .assertValue(Result.Error(throwable))
 
         verifySequence {
-            result.exception
+            result.cause
             mapper wasNot Called
         }
     }
@@ -401,7 +407,7 @@ class ResultLiveDataExtKtTest {
     fun `switchMapResult - value is Result Error - returns Result Error`() {
         val throwable: Throwable = mockk()
         val value: Result.Error = mockk {
-            every { exception } returns throwable
+            every { cause } returns throwable
         }
         val mapper: (Unit) -> LiveData<Result<String>> = mockk()
 
@@ -410,7 +416,7 @@ class ResultLiveDataExtKtTest {
             .assertValue(value)
 
         verifySequence {
-            value.exception
+            value.cause
             mapper wasNot Called
         }
     }
@@ -461,26 +467,6 @@ class ResultLiveDataExtKtTest {
             mapper wasNot Called
         }
     }
-
-
-//
-//    @Test
-//    fun `switchMapResult - value is Result Error - returns Result Error`() {
-//        val throwable: Throwable = mockk()
-//        val value: Result.Error = mockk {
-//            every { exception } returns throwable
-//        }
-//        val mapper: (Unit) -> LiveData<Result<String>> = mockk()
-//
-//        liveDataOf<Result<Unit>>(value)
-//            .switchMapResult(mapper)
-//            .assertValue(value)
-//
-//        verifySequence {
-//            value.exception
-//            mapper wasNot Called
-//        }
-//    }
 
     @Test
     fun `switchMapResult - first is loading, second is empty - returns Result Loading`() {

@@ -1,8 +1,8 @@
-package com.daydreamapplications.livedataextensions.result
+package com.daydreamapplications.livedataextensions.livedata.result
 
 import androidx.lifecycle.LiveData
-import com.daydreamapplications.livedataextensions.filter
-import com.daydreamapplications.livedataextensions.map
+import com.daydreamapplications.livedataextensions.livedata.filter
+import com.daydreamapplications.livedataextensions.livedata.map
 
 object FilterResult {
 
@@ -11,7 +11,7 @@ object FilterResult {
      */
     fun <S> filterError(source: LiveData<Result<S>>): LiveData<Throwable> {
         return source.filter { it is Result.Error }
-            .map { (it as Result.Error).exception }
+            .map { (it as Result.Error).cause }
     }
 
     /**

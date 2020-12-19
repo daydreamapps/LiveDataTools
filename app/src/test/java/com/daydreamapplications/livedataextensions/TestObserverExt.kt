@@ -44,3 +44,11 @@ fun <T> LiveData<T>.assertNoValue(): TestObserver<T> {
 fun <T> LiveData<T>.assertNever(valuePredicate: Function<T, Boolean>): TestObserver<T> {
     return test().assertNever(valuePredicate)
 }
+
+fun LiveData<Boolean>.assertFalse(): TestObserver<Boolean> {
+    return test().assertValue(false)
+}
+
+fun LiveData<Boolean>.assertTrue(): TestObserver<Boolean> {
+    return test().assertValue(true)
+}

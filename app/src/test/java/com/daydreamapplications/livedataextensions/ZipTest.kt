@@ -2,6 +2,7 @@ package com.daydreamapplications.livedataextensions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
+import com.daydreamapplications.livedataextensions.livedata.*
 import io.mockk.*
 import org.junit.After
 import org.junit.Before
@@ -29,8 +30,10 @@ class ZipTest {
     fun `zip2 - first source has value, second has no value - returns mapped value with null`() {
         val mapper: (String?, String?) -> Unit? = mockk()
         every { mapper("1", null) } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            emptyLiveData<String>()
 
         Zip.zip2(source1, source2, mapper)
             .assertValue(Unit)
@@ -45,8 +48,12 @@ class ZipTest {
     fun `zip2 - first source has value, second has null - returns mapped value with null`() {
         val mapper: (String?, String?) -> Unit? = mockk()
         every { mapper("1", null) } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf<String>(null)
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
 
         Zip.zip2(source1, source2, mapper)
             .assertValue(Unit)
@@ -61,8 +68,10 @@ class ZipTest {
     fun `zip2 - both sources have values - returns mapped value`() {
         val mapper: (String?, String?) -> Unit? = mockk()
         every { mapper("1", "2") } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf("2")
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf("2")
 
         Zip.zip2(source1, source2, mapper)
             .assertValue(Unit)
@@ -77,9 +86,12 @@ class ZipTest {
     fun `zip3 - single source has value - returns mapped value with null`() {
         val mapper: (String?, String?, String?) -> Unit? = mockk()
         every { mapper("1", null, null) } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = emptyLiveData<String>()
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            emptyLiveData<String>()
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zip3(source1, source2, source3, mapper)
             .assertValue(Unit)
@@ -95,9 +107,12 @@ class ZipTest {
     fun `zip3 - two sources have values - returns mapped value with null`() {
         val mapper: (String?, String?, String?) -> Unit? = mockk()
         every { mapper("1", "2", null) } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf("2")
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf("2")
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zip3(source1, source2, source3, mapper)
             .assertValue(Unit)
@@ -112,9 +127,12 @@ class ZipTest {
     fun `zip3 - all three sources have values - returns mapped value`() {
         val mapper: (String?, String?, String?) -> Unit? = mockk()
         every { mapper("1", "2", "3") } returns Unit
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf("2")
-        val source3 = liveDataOf("3")
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf("2")
+        val source3 =
+            liveDataOf("3")
 
         Zip.zip3(source1, source2, source3, mapper)
             .assertValue(Unit)
@@ -130,8 +148,10 @@ class ZipTest {
     fun `zipNonNull2 - first source has no value, second has no value - has no value`() {
         val mapper: (String, String) -> Unit = mockk()
 
-        val source1 = emptyLiveData<String>()
-        val source2 = emptyLiveData<String>()
+        val source1 =
+            emptyLiveData<String>()
+        val source2 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull2(source1, source2, mapper)
             .assertNoValue()
@@ -145,8 +165,12 @@ class ZipTest {
     fun `zipNonNull2 - first source has no value, second has null - has no value`() {
         val mapper: (String, String) -> Unit = mockk()
 
-        val source1 = emptyLiveData<String>()
-        val source2 = liveDataOf<String>(null)
+        val source1 =
+            emptyLiveData<String>()
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
 
         Zip.zipNonNull2(source1, source2, mapper)
             .assertNoValue()
@@ -160,8 +184,14 @@ class ZipTest {
     fun `zipNonNull2 - first source has null, second has null - has no value`() {
         val mapper: (String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>(null)
-        val source2 = liveDataOf<String>(null)
+        val source1 =
+            liveDataOf<String>(
+                null
+            )
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
 
         Zip.zipNonNull2(source1, source2, mapper)
             .assertNoValue()
@@ -175,8 +205,12 @@ class ZipTest {
     fun `zipNonNull2 - first source has value, second has no value - has no value`() {
         val mapper: (String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull2(source1, source2, mapper)
             .assertNoValue()
@@ -190,8 +224,14 @@ class ZipTest {
     fun `zipNonNull2 - first source has value, second has null - has no value`() {
         val mapper: (String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = liveDataOf<String>(null)
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
 
         Zip.zipNonNull2(source1, source2, mapper)
             .assertNoValue()
@@ -206,8 +246,10 @@ class ZipTest {
         val mapper: (String, String) -> Unit = mockk()
         every { mapper("1", "2") } returns Unit
 
-        val source1 = liveDataOf("1")
-        val source2 = liveDataOf("2")
+        val source1 =
+            liveDataOf("1")
+        val source2 =
+            liveDataOf("2")
 
         Zip.zipNonNull2(source1, source2, mapper)
             .assertValue(Unit)
@@ -221,9 +263,12 @@ class ZipTest {
     fun `zipNonNull3 - all sources have no value - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = emptyLiveData<String>()
-        val source2 = emptyLiveData<String>()
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            emptyLiveData<String>()
+        val source2 =
+            emptyLiveData<String>()
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -237,9 +282,14 @@ class ZipTest {
     fun `zipNonNull3 - one source has null, others have no value - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>(null)
-        val source2 = emptyLiveData<String>()
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf<String>(
+                null
+            )
+        val source2 =
+            emptyLiveData<String>()
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -253,9 +303,16 @@ class ZipTest {
     fun `zipNonNull3 - two source2 have null, other has no value - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>(null)
-        val source2 = liveDataOf<String>(null)
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf<String>(
+                null
+            )
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -269,9 +326,14 @@ class ZipTest {
     fun `zipNonNull3 - one source has value, others have no value - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = emptyLiveData<String>()
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            emptyLiveData<String>()
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -285,9 +347,16 @@ class ZipTest {
     fun `zipNonNull3 - two source2 have value, other has no value - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = liveDataOf<String>("2")
-        val source3 = emptyLiveData<String>()
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            liveDataOf<String>(
+                "2"
+            )
+        val source3 =
+            emptyLiveData<String>()
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -301,9 +370,18 @@ class ZipTest {
     fun `zipNonNull3 - one source has value, others has null - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = liveDataOf<String>(null)
-        val source3 = liveDataOf<String>(null)
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            liveDataOf<String>(
+                null
+            )
+        val source3 =
+            liveDataOf<String>(
+                null
+            )
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -317,9 +395,18 @@ class ZipTest {
     fun `zipNonNull3 - two source2 have value, other has  - has no value`() {
         val mapper: (String, String, String) -> Unit = mockk()
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = liveDataOf<String>("2")
-        val source3 = liveDataOf<String>(null)
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            liveDataOf<String>(
+                "2"
+            )
+        val source3 =
+            liveDataOf<String>(
+                null
+            )
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertNoValue()
@@ -334,9 +421,18 @@ class ZipTest {
         val mapper: (String, String, String) -> Unit = mockk()
         every { mapper("1", "2", "3") } returns Unit
 
-        val source1 = liveDataOf<String>("1")
-        val source2 = liveDataOf<String>("2")
-        val source3 = liveDataOf<String>("3")
+        val source1 =
+            liveDataOf<String>(
+                "1"
+            )
+        val source2 =
+            liveDataOf<String>(
+                "2"
+            )
+        val source3 =
+            liveDataOf<String>(
+                "3"
+            )
 
         Zip.zipNonNull3(source1, source2, source3, mapper)
             .assertValue(Unit)
@@ -358,7 +454,11 @@ class ZipTest {
 
         every { Zip.zip2(source1, source2, mapper) } returns mockk()
 
-        zip(source1, source2, mapper)
+        zip(
+            source1,
+            source2,
+            mapper
+        )
 
         verify { Zip.zip2(source1, source2, mapper) }
     }
@@ -372,7 +472,12 @@ class ZipTest {
 
         every { Zip.zip3(source1, source2, source3, mapper) } returns mockk()
 
-        zip(source1, source2, source3, mapper)
+        zip(
+            source1,
+            source2,
+            source3,
+            mapper
+        )
 
         verify { Zip.zip3(source1, source2, source3, mapper) }
     }
@@ -385,7 +490,11 @@ class ZipTest {
 
         every { Zip.zipNonNull2(source1, source2, mapper) } returns mockk()
 
-        zipNonNull(source1, source2, mapper)
+        zipNonNull(
+            source1,
+            source2,
+            mapper
+        )
 
         verify { Zip.zipNonNull2(source1, source2, mapper) }
     }
@@ -399,7 +508,12 @@ class ZipTest {
 
         every { Zip.zipNonNull3(source1, source2, source3, mapper) } returns mockk()
 
-        zipNonNull(source1, source2, source3, mapper)
+        zipNonNull(
+            source1,
+            source2,
+            source3,
+            mapper
+        )
 
         verify { Zip.zipNonNull3(source1, source2, source3, mapper) }
     }

@@ -1,4 +1,4 @@
-package com.daydreamapplications.livedataextensions
+package com.daydreamapplications.livedataextensions.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -146,7 +146,11 @@ fun <S1, S2, T> zip(
     mapper: (S1?, S2?) -> T?
 ): LiveData<T> {
 
-    return Zip.zip2(source1, source2, mapper)
+    return Zip.zip2(
+        source1,
+        source2,
+        mapper
+    )
 }
 
 
@@ -161,7 +165,12 @@ fun <S1, S2, S3, T> zip(
     mapper: (S1?, S2?, S3?) -> T?
 ): LiveData<T> {
 
-    return Zip.zip3(source1, source2, source3, mapper)
+    return Zip.zip3(
+        source1,
+        source2,
+        source3,
+        mapper
+    )
 }
 
 /**
@@ -174,7 +183,11 @@ fun <S1, S2, T> zipNonNull(
     mapper: (S1, S2) -> T
 ): LiveData<T> {
 
-    return Zip.zipNonNull2(source1, source2, mapper)
+    return Zip.zipNonNull2(
+        source1,
+        source2,
+        mapper
+    )
 }
 
 
@@ -189,5 +202,10 @@ fun <S1, S2, S3, T> zipNonNull(
     mapper: (S1, S2, S3) -> T
 ): LiveData<T> {
 
-    return Zip.zipNonNull3(source1, source2, source3, mapper)
+    return Zip.zipNonNull3(
+        source1,
+        source2,
+        source3,
+        mapper
+    )
 }
