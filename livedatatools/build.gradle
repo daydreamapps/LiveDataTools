@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "$project.rootDir/jacoco.gradle"
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+        lintConfig file("../lint.xml")
+    }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.2.0'
+    implementation "com.github.akarnokd:rxjava2-interop:0.13.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.13"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10"
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "com.squareup.assertj:assertj-android:1.1.1"
+    testImplementation "io.mockk:mockk:1.10.2"
+    testImplementation "io.mockk:mockk-android:1.8.6"
+    testImplementation "junit:junit:4.13.1"
+    testImplementation "org.assertj:assertj-core:3.11.1"
+}
