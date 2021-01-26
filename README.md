@@ -1,5 +1,5 @@
 # LiveDataTools
-[ ![Download](https://api.bintray.com/packages/daydreamapplications/livedata/tools/images/download.svg?version=1.0.0) ](https://bintray.com/daydreamapplications/livedata/tools/1.0.0/link)
+[ ![Download](https://api.bintray.com/packages/daydreamapplications/livedata/tools/images/download.svg?version=1.0.1) ](https://bintray.com/daydreamapplications/livedata/tools/1.0.1/link)
 ![Jenkins Status](http://jenkins.daydreamapplications.com/buildStatus/icon?subject=Jenkins%20CI&job=LiveDate+Extensions%2Fmaster)
 ![Unit Tests](https://github.com/daydreamapps/LiveDataTools/workflows/Unit%20Tests/badge.svg)
 
