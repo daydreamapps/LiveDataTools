@@ -3,8 +3,8 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 ext {
-    libraryVersionCode = 4
-    libraryVersion = "1.0.0"
+    libraryVersionCode = 5
+    libraryVersion = "1.0.1"
 
     bintrayRepo = 'livedata'
     bintrayName = 'tools'

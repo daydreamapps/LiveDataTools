@@ -44,7 +44,7 @@ fun <T, R> LiveData<T>.switchMap(switchFunction: (T?) -> LiveData<R>): LiveData<
  * LiveData that returns a LiveData, and then emitting the items emitted by the most recently emitted
  * of these LiveData.
  */
-fun <T, R> LiveData<T>.switchMapNonNull(switchFunction: (T?) -> LiveData<R>): LiveData<R> {
+fun <T, R> LiveData<T>.switchMapNonNull(switchFunction: (T) -> LiveData<R>): LiveData<R> {
     return SwitchMap.switchMapNonNull(
         this,
         switchFunction
